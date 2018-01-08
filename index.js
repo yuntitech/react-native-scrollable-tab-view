@@ -245,7 +245,7 @@ const ScrollableTabView = createReactClass({
       const scenes = this._composeScenes();
       return <AnimatedViewPagerAndroid
         key={this._children().length}
-        style={styles.scrollableContentAndroid}
+        style={[styles.scrollableContentAndroid, this.props.viewPagerStyle]}
         initialPage={this.props.initialPage}
         onPageSelected={this._updateSelectedPage}
         keyboardDismissMode="on-drag"
