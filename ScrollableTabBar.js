@@ -1,3 +1,10 @@
+/*
+ * @Author: weiwenshe 
+ * @Date: 2018-06-21 18:45:23 
+ * @Last Modified by:   weiwenshe 
+ * @Last Modified time: 2018-06-21 18:45:23 
+ */
+// @flow
 const React = require('react');
 const { ViewPropTypes } = ReactNative = require('react-native');
 const PropTypes = require('prop-types');
@@ -13,7 +20,6 @@ const {
 } = ReactNative;
 const Button = require('./Button');
 
-const WINDOW_WIDTH = Dimensions.get('window').width;
 
 const ScrollableTabBar = createReactClass({
   propTypes: {
@@ -152,12 +158,7 @@ const ScrollableTabBar = createReactClass({
   },
 
   render() {
-    const tabUnderlineStyle = {
-      position: 'absolute',
-      height: 4,
-      backgroundColor: 'navy',
-      bottom: 0,
-    };
+    
 
     const dynamicTabUnderline = {
       left: this.state._leftTabUnderline,
@@ -178,7 +179,7 @@ const ScrollableTabBar = createReactClass({
         scrollsToTop={false}
       >
         <View
-          style={[styles.tabs, {width: this.state._containerWidth, }, this.props.tabsContainerStyle, ]}
+          style={[styles.tabs, this.props.tabsContainerStyle, { minWidth: Dimensions.get('window').width, }, ]}
           ref={'tabContainer'}
           onLayout={this.onTabContainerLayout}
         >
@@ -187,7 +188,7 @@ const ScrollableTabBar = createReactClass({
             const renderTab = this.props.renderTab || this.renderTab;
             return renderTab(name, page, isTabActive, this.props.goToPage, this.measureTab.bind(this, page));
           })}
-          <Animated.View style={[tabUnderlineStyle, dynamicTabUnderline, this.props.underlineStyle, ]} />
+          <Animated.View style={[styles.tabUnderlineStyle, dynamicTabUnderline, this.props.underlineStyle, ]} />
         </View>
       </ScrollView>
     </View>;
@@ -202,11 +203,6 @@ const ScrollableTabBar = createReactClass({
 
   onTabContainerLayout(e) {
     this._tabContainerMeasurements = e.nativeEvent.layout;
-    let width = this._tabContainerMeasurements.width;
-    if (width < WINDOW_WIDTH) {
-      width = WINDOW_WIDTH;
-    }
-    this.setState({ _containerWidth: width, });
     this.updateView({value: this.props.scrollValue.__getValue(), });
   },
 
@@ -238,4 +234,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
   },
+
+   tabUnderlineStyle = {
+    position: 'absolute',
+    height: 4,
+    backgroundColor: 'navy',
+    bottom: 0,
+  }
 });
