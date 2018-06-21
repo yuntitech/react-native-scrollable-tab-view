@@ -2,7 +2,7 @@
  * @Author: weiwenshe 
  * @Date: 2018-06-21 18:45:23 
  * @Last Modified by: weiwenshe
- * @Last Modified time: 2018-06-21 18:57:27
+ * @Last Modified time: 2018-06-21 19:30:23
  */
 // @flow
 const React = require("react");
@@ -55,8 +55,7 @@ const ScrollableTabBar = createReactClass({
     this._tabsMeasurements = [];
     return {
       _leftTabUnderline: new Animated.Value(0),
-      _widthTabUnderline: new Animated.Value(0),
-      _containerWidth: null
+      _widthTabUnderline: new Animated.Value(0)
     };
   },
 
@@ -231,16 +230,6 @@ const ScrollableTabBar = createReactClass({
         </ScrollView>
       </View>
     );
-  },
-
-  componentWillReceiveProps(nextProps) {
-    // If the tabs change, force the width of the tabs container to be recalculated
-    if (
-      JSON.stringify(this.props.tabs) !== JSON.stringify(nextProps.tabs) &&
-      this.state._containerWidth
-    ) {
-      this.setState({ _containerWidth: null });
-    }
   },
 
   onTabContainerLayout(e) {
