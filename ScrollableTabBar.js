@@ -35,7 +35,8 @@ const ScrollableTabBar = createReactClass({
     textStyle: Text.propTypes.style,
     renderTab: PropTypes.func,
     underlineStyle: ViewPropTypes.style,
-    onScroll: PropTypes.func
+    onScroll: PropTypes.func,
+    needUpdateTabPanel: PropTypes.boolean
   },
 
   getDefaultProps() {
@@ -47,7 +48,8 @@ const ScrollableTabBar = createReactClass({
       style: {},
       tabStyle: {},
       tabsContainerStyle: {},
-      underlineStyle: {}
+      underlineStyle: {},
+      needUpdateTabPanel: true
     };
   },
 
@@ -79,7 +81,9 @@ const ScrollableTabBar = createReactClass({
         position === lastTabPosition
       )
     ) {
-      this.updateTabPanel(position, pageOffset);
+      if(this.props.needUpdateTabPanel){
+         this.updateTabPanel(position, pageOffset);
+      }
       this.updateTabUnderline(position, pageOffset, tabCount);
     }
   },
