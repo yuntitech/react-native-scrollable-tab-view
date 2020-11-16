@@ -182,8 +182,6 @@ const ScrollableTabBar = createReactClass({
       width: this.state._widthTabUnderline,
     };
 
-    const { onScroll } = this.props;
-
     return (
       <View
         style={[
@@ -198,13 +196,12 @@ const ScrollableTabBar = createReactClass({
             this._scrollView = scrollView;
           }}
           horizontal={true}
+          key={`key-${this._containerMeasurements?.width}`}
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
           directionalLockEnabled={true}
           bounces={false}
           scrollsToTop={false}
-          onScroll={onScroll}
-          scrollEventThrottle={16}
         >
           <View
             style={[
@@ -251,22 +248,19 @@ const ScrollableTabBar = createReactClass({
 
   onTabContainerLayout(e) {
     this._tabContainerMeasurements = e.nativeEvent.layout;
-    this.updateView({ value: this.props.scrollValue.__getValue() });
     let width = this._tabContainerMeasurements.width;
-    this.setState({ _containerWidth: 0 }, () => {
-      if (width < this._containerMeasurements?.width) {
-        width = this._containerMeasurements?.width;
-      }
-      this.setState({ _containerWidth: width });
-      this.updateView({ value: this.props.scrollValue.__getValue() });
-    });
+    if (width < this._containerMeasurements?.width) {
+      width = this._containerMeasurements?.width;
+    }
+    this.setState({ _containerWidth: width });
+    this.updateView({ value: this.props.scrollValue.__getValue() });
   },
 
   onContainerLayout(e) {
-    this._containerMeasurements = e.nativeEvent.layout;
     this.setState({
       _containerWidth: null,
     });
+    this._containerMeasurements = e.nativeEvent.layout;
     this.updateView({ value: this.props.scrollValue.__getValue() });
   },
 });
